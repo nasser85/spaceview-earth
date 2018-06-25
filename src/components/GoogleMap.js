@@ -23,10 +23,16 @@ export default class GoogleMap extends Component {
         this.logData = this.logData.bind(this)
         this.travelToDestination = this.travelToDestination.bind(this)
         this.placeMarker = this.placeMarker.bind(this)
+        this.zoomOut = this.zoomOut.bind(this)
+        this.addInfoWindowClickEvents = this.addInfoWindowClickEvents.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
 	}
+    zoomOut() {
+        this.state.map.setCenter(mapConfig.center)
+        this.state.map.setZoom(3);
+    }
     goToPlace() {
         this.setState({query: this.props.query})
     }
@@ -52,14 +58,21 @@ export default class GoogleMap extends Component {
             } else {
                 window.clearInterval(zoomAnimation)
                 this.state.map.fitBounds(new window.google.maps.LatLngBounds(bounds.southwest, bounds.northeast))
-                this.placeMarker(location, locationName)
+                this.placeMarker(location, locationName, bounds)
             }
         }, 200)
     }
-    placeMarker(location, name) {
+    placeMarker(location, name, bounds) {
+        let markerExists = this.state.mapPins.filter(el => el.name == name).length
+        if (markerExists) {
+            return
+        }
         const position = new window.google.maps.LatLng(location.lat, location.lng);
-        let pin = new MapPin(new window.google.maps.Marker({ position }), name, position)
+        let pin = new MapPin(new window.google.maps.Marker({ position }), name, position, bounds)
         pin.marker.setMap(this.state.map)
+        let infoWindowEventArgs = MapFactory.constructInfoWindow(pin, this.state.map)
+        this.addInfoWindowClickEvents(...infoWindowEventArgs)
+        MapFactory.addClickEvent(pin, this.state.map)
         let updatedPins = this.state.mapPins
         updatedPins.push(pin)
         this.setState({
@@ -74,10 +87,22 @@ export default class GoogleMap extends Component {
             this.setState({ map })
 		}
 	}
+    addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
+        window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {
+            document.getElementById(viewImagesBtn).addEventListener('click', () => {
+                console.log(markerObj.name)
+            })
+            document.getElementById(removePinBtn).addEventListener('click', () => {
+                markerObj.marker.setMap(null)
+                let updatedPins = this.state.mapPins.filter(el => el.name != markerObj.name)
+                this.setState({mapPins : updatedPins})
+            })
+        })
+    }
 	render() {
+        console.log(this.state)
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
-             console.log('query value: ', this.props.query, this.props.numberOfQueries)
-             MapFactory.findLocation(this.props.query)
+             this.props.query == 'Z28gaG9tZQ==' ? this.zoomOut() : MapFactory.findLocation(this.props.query)
                         .then(this.logData)
         }
 		return (

@@ -13,16 +13,20 @@ export default class App extends Component {
       number: 0
     }
     this.updateQuery = this.updateQuery.bind(this);
+    this.registerZoomOut = this.registerZoomOut.bind(this)
   }
   updateQuery(query) {
     let number = this.state.number + 1;
     this.setState({ query, number })
     console.log(window.google)
   }
+  registerZoomOut() {
+    this.updateQuery('Z28gaG9tZQ==')
+  }
   render() {
     return (
       <div className="App">
-        <Header transmitQuery={this.updateQuery}></Header>
+        <Header triggerZoomOut={this.registerZoomOut} transmitQuery={this.updateQuery}></Header>
         <GoogleMap query={this.state.query} numberOfQueries={this.state.number}></GoogleMap>
       </div>
     );
