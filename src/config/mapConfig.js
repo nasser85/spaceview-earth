@@ -6,5 +6,6 @@ export const mapConfig = (() => ({
     minZoom: 3,
 	styles: mapStyle,
     gestureHandling: 'none',
-    zoomControl: false
+    zoomControl: false,
+    disableDefaultUI: true
 }))()
