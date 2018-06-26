@@ -16,7 +16,7 @@ export default class MapFactory {
     	})
     }
     static constructInfoWindow(markerObj, map) {
-    	let baseIdName = markerObj.name.replace(/\W /g, '-')
+    	let baseIdName = markerObj.name.replace(/\W/g, '-')
     	let removeId = baseIdName + '_remove'
     	let imagesId = baseIdName + '_images'
     	let infoWindow = new window.google.maps.InfoWindow({
