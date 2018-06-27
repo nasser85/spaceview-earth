@@ -1,0 +1,25 @@
+.places-sidebar {
+    position: fixed;
+    z-index: 20;
+    background-color: black;
+    height: 100%;
+    width: 300px;
+    max-width: 80%;
+    left: 0px;
+    transition: left 1s;
+}
+.places-sidebar:after {
+    content: '';
+    position: relative;
+    border: 25px black solid;
+    top: 50%;
+    left: 50%;
+}
+.places-sidebar.hidden {
+    border-color: white;
+    left: -300px;
+}
+.drag-button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}

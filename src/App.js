@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import GoogleMap from './components/GoogleMap'
 import Header from './components/Header'
+import Sidebar from './components/Sidebar'
 
 import './App.css';
 
@@ -28,6 +29,7 @@ export default class App extends Component {
       <div className="App">
         <Header triggerZoomOut={this.registerZoomOut} transmitQuery={this.updateQuery}></Header>
         <GoogleMap query={this.state.query} numberOfQueries={this.state.number}></GoogleMap>
+        <Sidebar></Sidebar>
       </div>
     );
   }
