@@ -11,10 +11,12 @@ export default class App extends Component {
     super(props)
     this.state = {
       query: null,
-      number: 0
+      number: 0,
+      newPins: []
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
+    this.passNewPin = this.passNewPin.bind(this)
   }
   updateQuery(query) {
     let number = this.state.number + 1;
@@ -24,12 +26,15 @@ export default class App extends Component {
   registerZoomOut() {
     this.updateQuery('Z28gaG9tZQ==')
   }
+  passNewPin(pins) {
+    this.setState({newPins: pins})
+  }
   render() {
     return (
       <div className="App">
         <Header triggerZoomOut={this.registerZoomOut} transmitQuery={this.updateQuery}></Header>
-        <GoogleMap query={this.state.query} numberOfQueries={this.state.number}></GoogleMap>
-        <Sidebar></Sidebar>
+        <GoogleMap query={this.state.query} numberOfQueries={this.state.number} logNewPins={this.passNewPin}></GoogleMap>
+        <Sidebar newPins={this.state.newPins}></Sidebar>
       </div>
     );
   }

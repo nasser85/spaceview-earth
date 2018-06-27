@@ -25,6 +25,7 @@ export default class GoogleMap extends Component {
         this.placeMarker = this.placeMarker.bind(this)
         this.zoomOut = this.zoomOut.bind(this)
         this.addInfoWindowClickEvents = this.addInfoWindowClickEvents.bind(this)
+        this.checkForUpdates = this.checkForUpdates.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -75,6 +76,7 @@ export default class GoogleMap extends Component {
         MapFactory.addClickEvent(pin, this.state.map)
         let updatedPins = this.state.mapPins
         updatedPins.push(pin)
+        this.props.logNewPins(updatedPins)
         this.setState({
             mapPins : updatedPins,
             numberOfQueries : this.props.numberOfQueries
@@ -99,12 +101,15 @@ export default class GoogleMap extends Component {
             })
         })
     }
-	render() {
+    checkForUpdates() {
         console.log(this.state)
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
              this.props.query == 'Z28gaG9tZQ==' ? this.zoomOut() : MapFactory.findLocation(this.props.query)
                         .then(this.logData)
         }
+    }
+	render() {
+        this.checkForUpdates()  
 		return (
 			<div id="nasa-app-map-background"></div>
 		)
