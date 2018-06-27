@@ -23,10 +23,10 @@ export default class Sidebar extends Component {
     render() {
         return (
             <div className={this.state.hidden ? "places-sidebar hidden" : "places-sidebar"}>
-                <ul>
+                <ul className="places-item-container">
                     { this.props.newPins.map(this.renderLocation) }
                 </ul>
-                <DragButton onClick={this.toggleSidebar} className="drag-button" style={{"position" : "absolute", "top" : "50%", "left" : "100%", 'zIndex' : '100', "color": "white", "fontSize":"3rem", "marginLeft":"-12px","marginTop":"-13px"}}></DragButton>
+                <DragButton onClick={this.toggleSidebar} className="drag-button"></DragButton>
             </div>
         )
     }

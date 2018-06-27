@@ -19,7 +19,22 @@
     border-color: white;
     left: -300px;
 }
+.drag-button {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    z-index: 70;
+    color: white;
+    font-size: 3rem;
+    margin-left: -12px;
+    margin-top: -13px;
+}
 .drag-button:hover {
     cursor: pointer;
     transform: scale(1.1);
+}
+.places-item-container {
+    position: absolute;
+    color: white;
+    top: 70px;
 }
