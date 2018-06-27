@@ -12,18 +12,26 @@ export default class Sidebar extends Component {
         }
         this.toggleSidebar = this.toggleSidebar.bind(this)
         this.renderLocation = this.renderLocation.bind(this)
+        this.findPlace = this.findPlace.bind(this)
+        this.removePlace = this.removePlace.bind(this)
     }
     toggleSidebar() {
         let status = this.state.hidden;
         this.setState({hidden: !status})
     }
-    renderLocation(markerObj) {
+    findPlace() {
+        console.log(this.props.key)
+    }
+    removePlace() {
+
+    }
+    renderLocation(markerObj, index) {
         return (
-            <li>
+            <li key={index}>
                 <div className="places-item">
                     <div className="item-name"><p>{markerObj.name}</p></div>
-                    <div className="item-find"><p><Place></Place></p></div>
-                    <div className="item-remove"><p><RemovePlace></RemovePlace></p></div>
+                    <div className="item-find"><p><Place onClick={this.findPlace}></Place></p></div>
+                    <div className="item-remove"><p><RemovePlace onClick={this.removePlace}></RemovePlace></p></div>
                 </div>
             </li>
         )
