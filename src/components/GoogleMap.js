@@ -30,6 +30,9 @@ export default class GoogleMap extends Component {
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
 	}
+    componentDidUpdate() {
+        this.props.logNewPins(this.state.mapPins)
+    }
     zoomOut() {
         this.state.map.setCenter(mapConfig.center)
         this.state.map.setZoom(3);
@@ -76,7 +79,6 @@ export default class GoogleMap extends Component {
         MapFactory.addClickEvent(pin, this.state.map)
         let updatedPins = this.state.mapPins
         updatedPins.push(pin)
-        this.props.logNewPins(updatedPins)
         this.setState({
             mapPins : updatedPins,
             numberOfQueries : this.props.numberOfQueries

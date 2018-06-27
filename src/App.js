@@ -27,7 +27,9 @@ export default class App extends Component {
     this.updateQuery('Z28gaG9tZQ==')
   }
   passNewPin(pins) {
-    this.setState({newPins: pins})
+    if (pins.length != this.state.newPins.length) {
+      this.setState({newPins: pins})
+    }
   }
   render() {
     return (
