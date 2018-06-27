@@ -4,7 +4,6 @@
     background-color: black;
     height: 100%;
     width: 300px;
-    max-width: 80%;
     left: 0px;
     transition: left 1s;
 }
@@ -34,8 +33,27 @@
     transform: scale(1.1);
 }
 .places-item-container {
+    list-style: none;
     position: absolute;
     color: white;
     top: 70px;
     width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.places-item {
+    margin: 5px;
+    padding: 0px 5px;
+    border: 1px solid lightgreen;
+    border-radius: 4px;
+}
+.item-name {
+    width: 216px;
+    text-align: left;
+    display: inline-block;
+}
+.item-find, .item-remove {
+    width: 20px;
+    text-align: center;
+    display: inline-block;
 }
