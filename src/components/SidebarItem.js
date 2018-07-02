@@ -17,7 +17,7 @@ export default class SidebarItem extends Component {
     }
     render() {
         return (
-            <li key={index}>
+            <li>
                 <div className="places-item">
                     <div className="item-name"><p>{this.propsmarkerObj.name}</p></div>
                     <div className="item-find"><p><Place onClick={this.findPlace}></Place></p></div>
