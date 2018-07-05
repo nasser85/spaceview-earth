@@ -31,7 +31,9 @@ export default class Sidebar extends Component {
     }
     renderLocation(markerObj, index) {
         return (
-            <SidebarItem key={index} markerObj={markerObj} registerRemoval={this.removeItem}></SidebarItem>
+            <SidebarItem key={index}
+                         markerObj={markerObj}
+                         registerRemoval={this.removeItem}></SidebarItem>
         )
     }
     render() {
@@ -40,7 +42,8 @@ export default class Sidebar extends Component {
                 <ul className="places-item-container">
                     { this.props.newPins.map(this.renderLocation) }
                 </ul>
-                <DragButton onClick={this.toggleSidebar} className="drag-button"></DragButton>
+                <DragButton onClick={this.toggleSidebar}
+                            className="drag-button"></DragButton>
             </div>
         )
     }
