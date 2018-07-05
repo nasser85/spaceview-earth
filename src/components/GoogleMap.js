@@ -35,7 +35,7 @@ export default class GoogleMap extends Component {
         if (this.props.shouldTransmit) {
             console.log('here', this.props)
             this.props.logNewPins(this.state.mapPins)
-        } 
+        }
     }
     zoomOut() {
         this.state.map.setCenter(mapConfig.center)
@@ -121,6 +121,7 @@ export default class GoogleMap extends Component {
     }
 	render() {
         this.checkForUpdates()  
+        console.log(this.state.mapPins)
 		return (
 			<div id="nasa-app-map-background"></div>
 		)

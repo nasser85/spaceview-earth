@@ -23,6 +23,9 @@ export default class App extends Component {
   }
   componentDidUpdate() {
     console.log("The app's state has changed")
+    if (this.state.pinToRemove != '') {
+      this.setState({pinToRemove:''})
+    }
   }
   updateQuery(query) {
     let number = this.state.number + 1;
@@ -35,7 +38,10 @@ export default class App extends Component {
   passNewPin(pins) {
     if (pins.length != this.state.newPins.length) {
       console.log(pins)
-        this.setState({newPins: pins, acceptFromMaps: true}, this.setState({ state: this.state }))
+        this.setState({
+          newPins: pins,
+          acceptFromMaps: true
+        })
       
     }
   }
