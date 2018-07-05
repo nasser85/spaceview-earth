@@ -26,12 +26,16 @@ export default class GoogleMap extends Component {
         this.zoomOut = this.zoomOut.bind(this)
         this.addInfoWindowClickEvents = this.addInfoWindowClickEvents.bind(this)
         this.checkForUpdates = this.checkForUpdates.bind(this)
+        this.removePin = this.removePin.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
 	}
     componentDidUpdate() {
-        this.props.logNewPins(this.state.mapPins)
+        if (this.props.shouldTransmit) {
+            console.log('here', this.props)
+            this.props.logNewPins(this.state.mapPins)
+        } 
     }
     zoomOut() {
         this.state.map.setCenter(mapConfig.center)
@@ -91,16 +95,17 @@ export default class GoogleMap extends Component {
             this.setState({ map })
 		}
 	}
+    removePin(markerObj) {
+        markerObj.marker.setMap(null)
+        let updatedPins = this.state.mapPins.filter(el => el.name != markerObj.name)
+        this.setState({mapPins : updatedPins})
+    }
     addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
         window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {
             document.getElementById(viewImagesBtn).addEventListener('click', () => {
                 console.log(markerObj.name)
             })
-            document.getElementById(removePinBtn).addEventListener('click', () => {
-                markerObj.marker.setMap(null)
-                let updatedPins = this.state.mapPins.filter(el => el.name != markerObj.name)
-                this.setState({mapPins : updatedPins})
-            })
+            document.getElementById(removePinBtn).addEventListener('click', () => { this.removePin(markerObj) })
         })
     }
     checkForUpdates() {

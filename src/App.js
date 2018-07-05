@@ -12,15 +12,21 @@ export default class App extends Component {
     this.state = {
       query: null,
       number: 0,
-      newPins: []
+      newPins: [],
+      acceptFromMaps: true
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
     this.passNewPin = this.passNewPin.bind(this)
+    this.removePin = this.removePin.bind(this)
+    this.renderSidebar = this.renderSidebar.bind(this);
+  }
+  componentDidUpdate() {
+    console.log("The app's state has changed")
   }
   updateQuery(query) {
     let number = this.state.number + 1;
-    this.setState({ query, number })
+    this.setState({ query, number, acceptFromMaps:true })
     console.log(window.google)
   }
   registerZoomOut() {
@@ -28,15 +34,32 @@ export default class App extends Component {
   }
   passNewPin(pins) {
     if (pins.length != this.state.newPins.length) {
-      this.setState({newPins: pins})
+      console.log(pins)
+        this.setState({newPins: pins, acceptFromMaps: true}, this.setState({ state: this.state }))
+      
     }
   }
+  removePin(pinToRemove) {
+    console.log("pin to remove => ", pinToRemove)
+    console.log(this.state.newPins)
+    let pins = this.state.newPins.filter(el=>el.name != pinToRemove.name)
+    this.setState({
+      newPins: pins,
+      acceptFromMaps: false
+    })
+  }
+  renderSidebar() {
+    return (
+      <Sidebar logPinRemoval={this.removePin} newPins={this.state.newPins}></Sidebar>
+    )
+  }
   render() {
+    console.log("new pins => ", this.state.newPins)
     return (
       <div className="App">
         <Header triggerZoomOut={this.registerZoomOut} transmitQuery={this.updateQuery}></Header>
-        <GoogleMap query={this.state.query} numberOfQueries={this.state.number} logNewPins={this.passNewPin}></GoogleMap>
-        <Sidebar newPins={this.state.newPins}></Sidebar>
+        <GoogleMap query={this.state.query} numberOfQueries={this.state.number} logNewPins={this.passNewPin} shouldTransmit={this.state.acceptFromMaps}></GoogleMap>
+        { this.renderSidebar() }
       </div>
     );
   }

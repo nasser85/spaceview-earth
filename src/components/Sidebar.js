@@ -1,42 +1,44 @@
 import React, { Component } from 'react'
 import DragButton from 'react-icons/lib/md/more-vert'
-import Place from 'react-icons/lib/md/place'
-import RemovePlace from 'react-icons/lib/md/clear'
+
+import SidebarItem from './SidebarItem'
+
 import '../styles/Sidebar.css'
 
 export default class Sidebar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            hidden: true
+            hidden: true,
+            pins: []
         }
         this.toggleSidebar = this.toggleSidebar.bind(this)
         this.renderLocation = this.renderLocation.bind(this)
-        this.findPlace = this.findPlace.bind(this)
-        this.removePlace = this.removePlace.bind(this)
+        this.removeItem = this.removeItem.bind(this)
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(this.state.hidden)
+        if (!this.state.hidden && nextProps.newPins.length == this.props.newPins.length) {
+            this.toggleSidebar();
+        }
+        
     }
     toggleSidebar() {
         let status = this.state.hidden;
         this.setState({hidden: !status})
     }
-    findPlace() {
-        console.log(this.props.key)
-    }
-    removePlace() {
-
+    removeItem(markerObj) {
+        this.props.logPinRemoval(markerObj)
     }
     renderLocation(markerObj, index) {
         return (
-            <li key={index}>
-                <div className="places-item">
-                    <div className="item-name"><p>{markerObj.name}</p></div>
-                    <div className="item-find"><p><Place onClick={this.findPlace}></Place></p></div>
-                    <div className="item-remove"><p><RemovePlace onClick={this.removePlace}></RemovePlace></p></div>
-                </div>
-            </li>
+            <SidebarItem key={index} markerObj={markerObj} registerRemoval={this.removeItem}></SidebarItem>
         )
     }
     render() {
+        console.log('sidebar rendered')
+        console.log(`render level props = ${this.props.newPins.length ? this.props.newPins[this.props.newPins.length-1].name : ''}`)
+        console.log(this.props.children)
         return (
             <div className={this.state.hidden ? "places-sidebar hidden" : "places-sidebar"}>
                 <ul className="places-item-container">
