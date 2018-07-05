@@ -110,9 +110,13 @@ export default class GoogleMap extends Component {
     }
     checkForUpdates() {
         console.log(this.state)
+        let remove = this.state.mapPins.filter(el=>el.name==this.props.pinToRemove);
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
              this.props.query == 'Z28gaG9tZQ==' ? this.zoomOut() : MapFactory.findLocation(this.props.query)
                         .then(this.logData)
+        }
+        if (remove.length) {
+            this.removePin(remove[0])
         }
     }
 	render() {

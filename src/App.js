@@ -13,13 +13,13 @@ export default class App extends Component {
       query: null,
       number: 0,
       newPins: [],
-      acceptFromMaps: true
+      acceptFromMaps: true,
+      pinToRemove: ''
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
     this.passNewPin = this.passNewPin.bind(this)
     this.removePin = this.removePin.bind(this)
-    this.renderSidebar = this.renderSidebar.bind(this);
   }
   componentDidUpdate() {
     console.log("The app's state has changed")
@@ -45,21 +45,17 @@ export default class App extends Component {
     let pins = this.state.newPins.filter(el=>el.name != pinToRemove.name)
     this.setState({
       newPins: pins,
-      acceptFromMaps: false
+      acceptFromMaps: false,
+      pinToRemove: pinToRemove.name
     })
-  }
-  renderSidebar() {
-    return (
-      <Sidebar logPinRemoval={this.removePin} newPins={this.state.newPins}></Sidebar>
-    )
   }
   render() {
     console.log("new pins => ", this.state.newPins)
     return (
       <div className="App">
         <Header triggerZoomOut={this.registerZoomOut} transmitQuery={this.updateQuery}></Header>
-        <GoogleMap query={this.state.query} numberOfQueries={this.state.number} logNewPins={this.passNewPin} shouldTransmit={this.state.acceptFromMaps}></GoogleMap>
-        { this.renderSidebar() }
+        <GoogleMap pinToRemove={this.state.pinToRemove} query={this.state.query} numberOfQueries={this.state.number} logNewPins={this.passNewPin} shouldTransmit={this.state.acceptFromMaps}></GoogleMap>
+        <Sidebar logPinRemoval={this.removePin} newPins={this.state.newPins}></Sidebar>
       </div>
     );
   }

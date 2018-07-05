@@ -17,7 +17,6 @@ export default class Sidebar extends Component {
         this.removeItem = this.removeItem.bind(this)
     }
     componentWillReceiveProps(nextProps) {
-        console.log(this.state.hidden)
         if (!this.state.hidden && nextProps.newPins.length == this.props.newPins.length) {
             this.toggleSidebar();
         }
@@ -36,9 +35,6 @@ export default class Sidebar extends Component {
         )
     }
     render() {
-        console.log('sidebar rendered')
-        console.log(`render level props = ${this.props.newPins.length ? this.props.newPins[this.props.newPins.length-1].name : ''}`)
-        console.log(this.props.children)
         return (
             <div className={this.state.hidden ? "places-sidebar hidden" : "places-sidebar"}>
                 <ul className="places-item-container">
