@@ -22,10 +22,10 @@ export default class SidebarItem extends Component {
     render() {
         return (
             <li>
-                <div className="places-item">
-                    <div className="item-name"><p>{this.props.markerObj.name}</p></div>
-                    <div className="item-find"><p><Place onClick={this.findPlace}></Place></p></div>
-                    <div className="item-remove"><p><RemovePlace onClick={this.removePlace}></RemovePlace></p></div>
+                <div className="places-item bg-white">
+                    <div className="item-name color-black"><p>{this.props.markerObj.name}</p></div>
+                    <div className="item-find color-red"><p><Place className="item-object" onClick={this.findPlace}></Place></p></div>
+                    <div className="item-remove color-blue"><p><RemovePlace className="item-object" onClick={this.removePlace}></RemovePlace></p></div>
                 </div>
             </li>
         )

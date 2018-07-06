@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { mapConfig } from '../config/mapConfig'
 import MapFactory from '../utils/MapFactory'
+import EarthFactory from '../utils/EarthFactory'
 import MapPin from '../config/MapPin'
 
 import '../styles/GoogleMap.css'
@@ -99,6 +100,7 @@ export default class GoogleMap extends Component {
         markerObj.marker.setMap(null)
         let updatedPins = this.state.mapPins.filter(el => el.name != markerObj.name)
         this.setState({mapPins : updatedPins})
+        this.zoomOut();
     }
     addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
         window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {

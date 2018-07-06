@@ -3,10 +3,7 @@ import { localKeys } from '../config/local.keys.js'
 export default class MapFactory {
     static findLocation(query) {
         return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + query.replace(/ /g, '+') + "&key=" + localKeys.GOOGLE_API_KEY)
-                .then(res=> {
-                    console.log('what')
-                    return res.json();
-                })
+                .then(res=>res.json())
     }
     static addClickEvent(markerObj, map) {
     	window.google.maps.event.addListener(markerObj.marker, 'click', () => {
@@ -23,9 +20,9 @@ export default class MapFactory {
     	let removeId = baseIdName + '_remove'
     	let imagesId = baseIdName + '_images'
     	let infoWindow = new window.google.maps.InfoWindow({
-    		content: `<p><strong>${markerObj.name}</strong></p>
-    					<p><span id=${imagesId}>View NASA images for this region</span></p>
-    					<p><span id=${removeId}>Remove Pin</span></p>`
+    		content: `<p><strong>${markerObj.name.toUpperCase()}</strong></p>
+    					<p><span id=${imagesId} class="info-link">View NASA images for this region</span></p>
+    					<p><span id=${removeId} class="info-link">Remove Pin</span></p>`
     	})
     	markerObj.infoWindow = infoWindow
     	this.openInfoWindow(markerObj, map)

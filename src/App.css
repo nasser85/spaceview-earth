@@ -8,9 +8,34 @@ body {
   text-align: center;
 }
 
-
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.bg-black {
+	background-color: #0D0630;
 }
+.bg-blue {
+	background-color: #3626A7;
+}
+.bg-light-blue {
+	background-color: #657ED4;
+}
+.bg-red { 
+	background-color: #FF331F;
+}
+.bg-white {
+	background-color: #FBFBFF;
+}
+.color-black {
+	color: #0D0630;
+}
+.color-blue {
+	color: #3626A7;
+}
+.color-light-blue {
+	color: #657ED4;
+}
+.color-yellow { 
+	color: #FF331F;
+}
+.color-white {
+	color: #FBFBFF;
+}
+
