@@ -14,7 +14,8 @@ export default class App extends Component {
       number: 0,
       newPins: [],
       acceptFromMaps: true,
-      pinToRemove: ''
+      pinToRemove: '',
+      map: null
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
@@ -33,11 +34,12 @@ export default class App extends Component {
   registerZoomOut() {
     this.updateQuery('Z28gaG9tZQ==')
   }
-  passNewPin(pins) {
+  passNewPin(pins, map) {
     if (pins.length != this.state.newPins.length) {
         this.setState({
           newPins: pins,
-          acceptFromMaps: true
+          acceptFromMaps: true,
+          map
         })
       
     }
@@ -61,7 +63,8 @@ export default class App extends Component {
                    logNewPins={this.passNewPin}
                    shouldTransmit={this.state.acceptFromMaps}></GoogleMap>
         <Sidebar logPinRemoval={this.removePin}
-                 newPins={this.state.newPins}></Sidebar>
+                 newPins={this.state.newPins}
+                 map={this.state.map}></Sidebar>
       </div>
     );
   }

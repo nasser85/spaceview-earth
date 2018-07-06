@@ -34,7 +34,7 @@ export default class GoogleMap extends Component {
     componentDidUpdate() {
         if (this.props.shouldTransmit) {
             console.log('here', this.props)
-            this.props.logNewPins(this.state.mapPins)
+            this.props.logNewPins(this.state.mapPins, this.state.map)
         }
     }
     zoomOut() {

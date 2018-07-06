@@ -10,10 +10,13 @@ export default class MapFactory {
     }
     static addClickEvent(markerObj, map) {
     	window.google.maps.event.addListener(markerObj.marker, 'click', () => {
-    		map.setCenter(markerObj.marker.location)
-    		map.fitBounds(new window.google.maps.LatLngBounds(markerObj.bounds.southwest, markerObj.bounds.northeast))
-    		this.openInfoWindow(markerObj, map)
+            this.journeyToDestination(markerObj, map);
     	})
+    }
+    static journeyToDestination(markerObj, map) {
+        map.setCenter(markerObj.marker.location)
+        map.fitBounds(new window.google.maps.LatLngBounds(markerObj.bounds.southwest, markerObj.bounds.northeast))
+        this.openInfoWindow(markerObj, map)
     }
     static constructInfoWindow(markerObj, map) {
     	let baseIdName = markerObj.name.replace(/\W/g, '-')

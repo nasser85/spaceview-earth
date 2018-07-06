@@ -33,7 +33,8 @@ export default class Sidebar extends Component {
         return (
             <SidebarItem key={index}
                          markerObj={markerObj}
-                         registerRemoval={this.removeItem}></SidebarItem>
+                         registerRemoval={this.removeItem}
+                         map={this.props.map}></SidebarItem>
         )
     }
     render() {

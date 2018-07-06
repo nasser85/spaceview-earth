@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Place from 'react-icons/lib/md/place'
 import RemovePlace from 'react-icons/lib/md/clear'
 
+import MapFactory from '../utils/MapFactory.js'
+
 export default class SidebarItem extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +14,7 @@ export default class SidebarItem extends Component {
         this.removePlace = this.removePlace.bind(this)
     }
     findPlace() {
-        console.log(this.props.markerObj)
+        MapFactory.journeyToDestination(this.props.markerObj, this.props.map)
     }
     removePlace() {
         this.props.registerRemoval(this.props.markerObj)
