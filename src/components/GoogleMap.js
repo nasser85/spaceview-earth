@@ -21,7 +21,9 @@ export default class GoogleMap extends Component {
             numberOfQueries: 0,
             mapPins: [],
             imageViewer: false,
-            imagesForViewer: []
+            imagesForViewer: [],
+            imageCache: {},
+            loader: false
 		}
 		this.createGenericMap = this.createGenericMap.bind(this)
         this.goToPlace = this.goToPlace.bind(this)
@@ -36,6 +38,7 @@ export default class GoogleMap extends Component {
         this.renderImageViewer = this.renderImageViewer.bind(this)
         this.closeImageViewer = this.closeImageViewer.bind(this)
         this.setImageViewer = this.setImageViewer.bind(this)
+        this.retrieveNASAImage = this.retrieveNASAImage.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -110,10 +113,20 @@ export default class GoogleMap extends Component {
         this.setState({mapPins : updatedPins})
         this.zoomOut();
     }
-    viewNASAImage(lat, lng) {
+    retrieveNASAImage(location, lat, lng) {
+        if (this.state.imageCache.hasOwnProperty(location)) {
+            this.setImageViewer([this.state.imageCache[location]])
+        } else {
+            this.viewNASAImage(location, lat, lng)
+        }
+    }
+    viewNASAImage(location, lat, lng) {
+        this.setState({
+            loader: true
+        })
         EarthFactory.fetchImage(lat, lng)
                     .then(data => {
-                        this.setImageViewer([data.url])
+                        this.setImageViewer([data.url], location)
                     })
     }
     renderImageViewer() {
@@ -128,16 +141,22 @@ export default class GoogleMap extends Component {
             imagesForViewer: []
         })
     }
-    setImageViewer(imagesForViewer) {
+    setImageViewer(imagesForViewer, location=null) {
+        let imageCache = this.state.imageCache
+        if (location != null) {
+            imageCache[location] = imagesForViewer[0]
+        }
         this.setState({
+            loader: false,
             imageViewer: true,
-            imagesForViewer
+            imagesForViewer,
+            imageCache
         })
     }
     addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
         window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {
             document.getElementById(viewImagesBtn).addEventListener('click', () => {
-                this.viewNASAImage(markerObj.location.lat(), markerObj.location.lng())
+                this.retrieveNASAImage(markerObj.name, markerObj.location.lat(), markerObj.location.lng())
             })
             document.getElementById(removePinBtn).addEventListener('click', () => { this.removePin(markerObj) })
         })
