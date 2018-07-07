@@ -5,6 +5,8 @@ import MapFactory from '../utils/MapFactory'
 import EarthFactory from '../utils/EarthFactory'
 import MapPin from '../config/MapPin'
 
+import ImageViewer from './ImageViewer'
+
 import '../styles/GoogleMap.css'
 
 export default class GoogleMap extends Component {
@@ -17,7 +19,9 @@ export default class GoogleMap extends Component {
 			map: null,
             query: null,
             numberOfQueries: 0,
-            mapPins: []
+            mapPins: [],
+            imageViewer: false,
+            imagesForViewer: []
 		}
 		this.createGenericMap = this.createGenericMap.bind(this)
         this.goToPlace = this.goToPlace.bind(this)
@@ -28,6 +32,10 @@ export default class GoogleMap extends Component {
         this.addInfoWindowClickEvents = this.addInfoWindowClickEvents.bind(this)
         this.checkForUpdates = this.checkForUpdates.bind(this)
         this.removePin = this.removePin.bind(this)
+        this.viewNASAImage = this.viewNASAImage.bind(this)
+        this.renderImageViewer = this.renderImageViewer.bind(this)
+        this.closeImageViewer = this.closeImageViewer.bind(this)
+        this.setImageViewer = this.setImageViewer.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -102,10 +110,34 @@ export default class GoogleMap extends Component {
         this.setState({mapPins : updatedPins})
         this.zoomOut();
     }
+    viewNASAImage(lat, lng) {
+        EarthFactory.fetchImage(lat, lng)
+                    .then(data => {
+                        this.setImageViewer([data.url])
+                    })
+    }
+    renderImageViewer() {
+        return (
+            <ImageViewer images={this.state.imagesForViewer}
+                         close={this.closeImageViewer}></ImageViewer>
+        )
+    }
+    closeImageViewer() {
+        this.setState({
+            imageViewer: false,
+            imagesForViewer: []
+        })
+    }
+    setImageViewer(imagesForViewer) {
+        this.setState({
+            imageViewer: true,
+            imagesForViewer
+        })
+    }
     addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
         window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {
             document.getElementById(viewImagesBtn).addEventListener('click', () => {
-                console.log(markerObj.name)
+                this.viewNASAImage(markerObj.location.lat(), markerObj.location.lng())
             })
             document.getElementById(removePinBtn).addEventListener('click', () => { this.removePin(markerObj) })
         })
@@ -125,7 +157,9 @@ export default class GoogleMap extends Component {
         this.checkForUpdates()  
         console.log(this.state.mapPins)
 		return (
-			<div id="nasa-app-map-background"></div>
+			<div id="nasa-app-map-background">
+            { this.state.imageViewer ? this.renderImageViewer() : false }
+            </div>
 		)
 	}
 }
