@@ -18,13 +18,17 @@ export default class ImageViewer extends Component {
 	}
 	render() {
 		console.log(this.props.images)
+		let leftClass = this.state.index > 0 ? "image-left-arrow color-white"
+											 : "image-left-arrow color-white hidden"
+		let rightClass = this.state.index < this.props.images.length-1 ? "image-right-arrow color-white"
+		                                                               : "image-right-arrow color-white hidden"
 		return (
 			<div className="image-viewer">
 				<Close onClick={this.closeViewer} className="close-button color-white" />
 				<div className="main-image-container">
 					<img className="main-image" src={this.props.images[this.state.index][0]} />
 					<div className="main-image-caption">
-						<Left className="image-left-arrow color-white" /><p className="main-image-text color-white">{this.props.images[this.state.index][1]}</p><Right className="image-right-arrow color-white" />
+						<Left className={leftClass} /><p className="main-image-text color-white">{this.props.images[this.state.index][1]}</p><Right className={rightClass} />
 					</div>
 				</div>
 			</div>

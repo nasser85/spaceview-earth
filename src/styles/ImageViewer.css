@@ -50,3 +50,6 @@
 	display: inline-block;
 	float: right;
 }
+.image-left-arrow.hidden, .image-right-arrow.hidden {
+	display: none;
+}
