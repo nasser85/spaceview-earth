@@ -45,7 +45,6 @@ export default class GoogleMap extends Component {
 	}
     componentDidUpdate() {
         if (this.props.shouldTransmit) {
-            console.log('here', this.props)
             this.props.logNewPins(this.state.mapPins, this.state.map)
         }
     }
@@ -57,7 +56,6 @@ export default class GoogleMap extends Component {
         this.setState({query: this.props.query})
     }
     logData(data) {
-        console.log(data)
         if (!data.results.length) {
             return
         }
@@ -162,7 +160,6 @@ export default class GoogleMap extends Component {
         })
     }
     checkForUpdates() {
-        console.log(this.state)
         let remove = this.state.mapPins.filter(el=>el.name==this.props.pinToRemove);
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
              this.props.query == 'Z28gaG9tZQ==' ? this.zoomOut() : MapFactory.findLocation(this.props.query)
@@ -174,7 +171,6 @@ export default class GoogleMap extends Component {
     }
 	render() {
         this.checkForUpdates()  
-        console.log(this.state.mapPins)
 		return (
 			<div id="nasa-app-map-background">
             { this.state.imageViewer ? this.renderImageViewer() : false }

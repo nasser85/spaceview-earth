@@ -11,10 +11,16 @@ export default class Search extends Component {
 
         this.enterQuery = this.enterQuery.bind(this)
         this.triggerEmptyQueryAlert = this.triggerEmptyQueryAlert.bind(this)
+        this.checkKey = this.checkKey.bind(this)
     }
     enterQuery() {
         let query = this.refs.searchQuery.value
         query.length ? this.props.registerQuery(query) : this.triggerEmptyQueryAlert()
+    }
+    checkKey(e) {
+        if (e.which == 13 || e.keyCode == 13) {
+            this.enterQuery()
+        }
     }
     triggerEmptyQueryAlert() {
         alert('Please enter a query value, like New York or Pyramids of Giza.')
@@ -24,7 +30,7 @@ export default class Search extends Component {
     }
     render() {
         return (
-            <div className="search-wrapper">
+            <div onKeyPress={this.checkKey} className="search-wrapper">
                 <div className="input-wrapper">
                     <input ref="searchQuery" id="search-input"></input>
                     <div className="search-btn" onClick={this.enterQuery}><p className="search-btn-label">Find Location <SearchIcon /></p></div>
