@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import MapFactory from '../utils/MapFactory'
-import SearchIcon from 'react-icons/lib/md/search'
+import SearchIcon from 'react-icons/lib/md/place'
 
 import '../styles/Search.css'
 
@@ -32,8 +32,8 @@ export default class Search extends Component {
         return (
             <div onKeyPress={this.checkKey} className="search-wrapper">
                 <div className="input-wrapper">
-                    <input ref="searchQuery" id="search-input"></input>
-                    <div className="search-btn" onClick={this.enterQuery}><p className="search-btn-label">Find Location <SearchIcon /></p></div>
+                    <input ref="searchQuery" placeHolder="city, address, landmark" id="search-input"></input>
+                    <div className="search-btn" onClick={this.enterQuery}><p className="search-btn-label">Capture Location <SearchIcon /></p></div>
                 </div>
             </div>
         )
