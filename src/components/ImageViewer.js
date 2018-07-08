@@ -22,9 +22,9 @@ export default class ImageViewer extends Component {
 			<div className="image-viewer">
 				<Close onClick={this.closeViewer} className="close-button color-white" />
 				<div className="main-image-container">
-					<img className="main-image" src={this.props.images[this.state.index]} />
+					<img className="main-image" src={this.props.images[this.state.index][0]} />
 					<div className="main-image-caption">
-						<Left className="image-left-arrow color-white" /><p className="main-image-text color-white"> PLACE NAME THAT IS REALLY REALLLLLLLLLLLLY LONG</p><Right className="image-right-arrow color-white" />
+						<Left className="image-left-arrow color-white" /><p className="main-image-text color-white">{this.props.images[this.state.index][1]}</p><Right className="image-right-arrow color-white" />
 					</div>
 				</div>
 			</div>

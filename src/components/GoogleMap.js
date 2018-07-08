@@ -113,7 +113,7 @@ export default class GoogleMap extends Component {
     }
     retrieveNASAImage(location, lat, lng) {
         if (this.state.imageCache.hasOwnProperty(location)) {
-            this.setImageViewer([this.state.imageCache[location]])
+            this.setImageViewer([[this.state.imageCache[location], location]])
         } else {
             this.viewNASAImage(location, lat, lng)
         }
@@ -124,7 +124,7 @@ export default class GoogleMap extends Component {
         })
         EarthFactory.fetchImage(lat, lng)
                     .then(data => {
-                        this.setImageViewer([data.url], location)
+                        this.setImageViewer([[data.url, location]], location)
                     })
     }
     renderImageViewer() {
@@ -142,7 +142,7 @@ export default class GoogleMap extends Component {
     setImageViewer(imagesForViewer, location=null) {
         let imageCache = this.state.imageCache
         if (location != null) {
-            imageCache[location] = imagesForViewer[0]
+            imageCache[location] = imagesForViewer[0][0]
         }
         this.setState({
             loader: false,
