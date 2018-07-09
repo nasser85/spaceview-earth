@@ -1,4 +1,4 @@
-# Nasa App
+# Spaceview Earth - Nasa Imagery App
 
 This app uses the **Google Maps API** in tandem with the **NASA API** to fetch the most recent *LANDSAT 8* image of any location (address, city, state, country, landmark, etc.).  The *LANDSAT 8* satellite takes pictures of the entire earth every 16 days.
 
