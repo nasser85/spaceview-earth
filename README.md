@@ -5,6 +5,14 @@ This app uses the **Google Maps API** in tandem with the **NASA API** to fetch t
 For more information check out [Nasa's Api Docs on the Earth Endpoint](https://api.nasa.gov/api.html#earth)
 
 ## Screenshots
+![](https://github.com/nasser85/spaceview-earth/blob/master/screenshots/Accra.jpg)
+*Recent LANDSAT 8 capture of Accra*
+
+![](https://github.com/nasser85/spaceview-earth/blob/master/screenshots/Lima.jpg)
+*Recent LANDSAT 8 capture of Lima*
+
+![](https://github.com/nasser85/spaceview-earth/blob/master/screenshots/UI.jpg)
+*UI/UX Example*
 
 
 ## Demo
