@@ -17,6 +17,4 @@ For more information check out [Nasa's Api Docs on the Earth Endpoint](https://a
 
 ## Demo
 
-Check out a demo of the app [here](https://focused-volhard-1e40bf.netlify.com/)
-
-*Note that you may have to enable your browser to bypass CORS - this is for the NASA api to work (http: endpoint).  You can check your developer's console for details*
+Check out a demo of the app [here](http://deeply-temper.surge.sh/)
