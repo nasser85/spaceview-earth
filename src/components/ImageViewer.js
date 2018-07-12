@@ -12,9 +12,13 @@ export default class ImageViewer extends Component {
 			index: 0
 		}
 		this.closeViewer = this.closeViewer.bind(this)
+		this.logError = this.bind(this)
 	}
 	closeViewer() {
 		this.props.close()
+	}
+	logError() {
+		console.log(document.getElementById('place-image'))
 	}
 	render() {
 		console.log(this.props.images)
@@ -26,7 +30,7 @@ export default class ImageViewer extends Component {
 			<div className="image-viewer">
 				<Close onClick={this.closeViewer} className="close-button color-white" />
 				<div className="main-image-container">
-					<img className="main-image" src={this.props.images[this.state.index][0]} />
+					<img id="place-image" className="main-image" src={this.props.images[this.state.index][0]} onError={this.logError}/>
 					<div className="main-image-caption">
 						<Left className={leftClass} /><p className="main-image-text color-white">{this.props.images[this.state.index][1]}</p><Right className={rightClass} />
 					</div>
