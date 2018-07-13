@@ -14,4 +14,13 @@ export default class Utilities {
 		day = day.length === 2 ? day : '0' + day;
 		return `${year}-${month}-${day}`
 	}
+	static getDateStrings() {
+		let date = new Date();
+		let year = date.getFullYear();
+		let month = date.getMonth();
+		let day = date.getDate();
+		return [
+			'2018'
+		]
+	}
 }

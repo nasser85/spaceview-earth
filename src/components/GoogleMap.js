@@ -39,6 +39,7 @@ export default class GoogleMap extends Component {
         this.closeImageViewer = this.closeImageViewer.bind(this)
         this.setImageViewer = this.setImageViewer.bind(this)
         this.retrieveNASAImage = this.retrieveNASAImage.bind(this)
+        this.replenishCachedLocation = this.replenishCachedLocation.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -111,26 +112,35 @@ export default class GoogleMap extends Component {
         this.setState({mapPins : updatedPins})
         this.zoomOut();
     }
-    retrieveNASAImage(location, lat, lng) {
+    retrieveNASAImage(location, lat, lng, markerObj) {
         if (this.state.imageCache.hasOwnProperty(location)) {
-            this.setImageViewer([[this.state.imageCache[location], location]])
+            this.setImageViewer([[this.state.imageCache[location], location, markerObj]])
         } else {
-            this.viewNASAImage(location, lat, lng)
+            this.viewNASAImage(location, lat, lng, markerObj)
         }
     }
-    viewNASAImage(location, lat, lng) {
+    viewNASAImage(location, lat, lng, markerObj) {
         this.setState({
             loader: true
         })
+
         EarthFactory.fetchImage(lat, lng)
                     .then(data => {
-                        this.setImageViewer([[data.url, location]], location)
+                        this.setImageViewer([[data.url, location, markerObj]], location)
                     })
+    }
+    replenishCachedLocation(location, markerObj) {
+        let imageCache = this.state.imageCache
+        delete imageCache[location]
+        this.setState( { imageCache }, () => {
+            this.retrieveNASAImage(markerObj.name, markerObj.location.lat(), markerObj.location.lng(), markerObj)
+        })
     }
     renderImageViewer() {
         return (
             <ImageViewer images={this.state.imagesForViewer}
-                         close={this.closeImageViewer}></ImageViewer>
+                         close={this.closeImageViewer}
+                         onBroken={this.replenishCachedLocation}></ImageViewer>
         )
     }
     closeImageViewer() {
