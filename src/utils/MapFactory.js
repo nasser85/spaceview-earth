@@ -1,9 +1,9 @@
 import { localKeys } from '../config/local.keys.js'
+import $ from 'jquery'
 
 export default class MapFactory {
     static findLocation(query) {
-        return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + query.replace(/ /g, '+') + "&key=" + localKeys.GOOGLE_API_KEY)
-                .then(res=>res.json())
+        return $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + query.replace(/ /g, '+') + "&key=" + localKeys.GOOGLE_API_KEY)
     }
     static addClickEvent(markerObj, map) {
     	window.google.maps.event.addListener(markerObj.marker, 'click', () => {
