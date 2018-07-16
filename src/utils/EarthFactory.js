@@ -1,6 +1,6 @@
 import { localKeys } from '../config/local.keys.js'
 import $ from 'jquery'
-const baseUrl = 'https://api.nasa.gov/planetary/earth/imagery?'
+const baseUrl = 'https://api.nasa.gov/planetary/earth/imagery/?'
 
 export default class EarthFactory {
 	static fetchImage(lat, lng) {
