@@ -42,11 +42,11 @@ export default class ImageViewer extends Component {
 	renderMainImage() {
 		return (
 			<img id="place-image"
-					     alt={this.props.images[this.state.index][1]}
-					     className="main-image hidden"
-					     src={this.props.images[this.state.index][0]}
-					     onError={this.logError}
-					     onLoad={this.onImageLoad}></img>
+			     alt={this.props.images[this.state.index][1]}
+			     className="main-image hidden"
+			     src={this.props.images[this.state.index][0]}
+			     onError={this.logError}
+			     onLoad={this.onImageLoad}></img>
 		)
 	}
 	render() {
