@@ -18,7 +18,7 @@ export default class Search extends Component {
         query.length ? this.props.registerQuery(query) : this.triggerEmptyQueryAlert()
     }
     checkKey(e) {
-        if (e.which == 13 || e.keyCode == 13) {
+        if (e.which === 13 || e.keyCode === 13) {
             this.enterQuery()
         }
     }

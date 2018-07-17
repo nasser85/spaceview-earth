@@ -17,7 +17,7 @@ export default class Sidebar extends Component {
         this.removeItem = this.removeItem.bind(this)
     }
     componentWillReceiveProps(nextProps) {
-        if (!this.state.hidden && nextProps.newPins.length == this.props.newPins.length) {
+        if (!this.state.hidden && nextProps.newPins.length === this.props.newPins.length) {
             this.toggleSidebar();
         }
         
