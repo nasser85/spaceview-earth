@@ -164,7 +164,7 @@ export default class GoogleMap extends Component {
     addInfoWindowClickEvents(viewImagesBtn, removePinBtn, markerObj) {
         window.google.maps.event.addListener(markerObj.infoWindow, 'domready', () => {
             document.getElementById(viewImagesBtn).addEventListener('click', () => {
-                this.retrieveNASAImage(markerObj.name, markerObj.location.lat(), markerObj.location.lng())
+                this.retrieveNASAImage(markerObj.name, markerObj.location.lat(), markerObj.location.lng(), markerObj)
             })
             document.getElementById(removePinBtn).addEventListener('click', () => { this.removePin(markerObj) })
         })
