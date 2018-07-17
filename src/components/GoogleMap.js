@@ -22,8 +22,7 @@ export default class GoogleMap extends Component {
             mapPins: [],
             imageViewer: false,
             imagesForViewer: [],
-            imageCache: {},
-            loader: false
+            imageCache: {}
 		}
 		this.createGenericMap = this.createGenericMap.bind(this)
         this.goToPlace = this.goToPlace.bind(this)
@@ -121,7 +120,8 @@ export default class GoogleMap extends Component {
     }
     viewNASAImage(location, lat, lng, markerObj) {
         this.setState({
-            loader: true
+            imageViewer: true,
+
         })
 
         EarthFactory.fetchImage(lat, lng)
@@ -155,7 +155,6 @@ export default class GoogleMap extends Component {
             imageCache[location] = imagesForViewer[0][0]
         }
         this.setState({
-            loader: false,
             imageViewer: true,
             imagesForViewer,
             imageCache

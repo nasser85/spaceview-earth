@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Close from 'react-icons/lib/md/clear'
 import Right from 'react-icons/lib/md/keyboard-arrow-right'
 import Left from 'react-icons/lib/md/keyboard-arrow-left'
+import Loader from '../assets/loader.gif'
 
 import '../styles/ImageViewer.css'
 
@@ -13,6 +14,9 @@ export default class ImageViewer extends Component {
 		}
 		this.closeViewer = this.closeViewer.bind(this)
 		this.logError = this.logError.bind(this)
+		this.onImageLoad = this.onImageLoad.bind(this)
+		this.renderMainImage = this.renderMainImage.bind(this)
+		this.renderCaption = this.renderCaption.bind(this)
 	}
 	closeViewer() {
 		this.props.close()
@@ -20,20 +24,39 @@ export default class ImageViewer extends Component {
 	logError() {
 		this.props.onBroken(this.props.images[this.state.index][1], this.props.images[this.state.index][2])
 	}
-	render() {
-		console.log(this.props.images)
+	onImageLoad() {
+		document.getElementById('place-image').classList.remove('hidden')
+		document.getElementById('loader').classList.add('hidden')
+	}
+	renderCaption() {
 		let leftClass = this.state.index > 0 ? "image-left-arrow color-white"
 											 : "image-left-arrow color-white hidden"
 		let rightClass = this.state.index < this.props.images.length-1 ? "image-right-arrow color-white"
 		                                                               : "image-right-arrow color-white hidden"
 		return (
+			<div className="main-image-caption">
+				<Left className={leftClass} /><p className="main-image-text color-white">{this.props.images.length ? this.props.images[this.state.index][1] : ' '}</p><Right className={rightClass} />
+			</div>
+		)
+	}
+	renderMainImage() {
+		return (
+			<img id="place-image"
+					     alt={this.props.images[this.state.index][1]}
+					     className="main-image hidden"
+					     src={this.props.images[this.state.index][0]}
+					     onError={this.logError}
+					     onLoad={this.onImageLoad}></img>
+		)
+	}
+	render() {
+		return (
 			<div className="image-viewer">
 				<Close onClick={this.closeViewer} className="close-button color-white" />
 				<div className="main-image-container">
-					<img id="place-image" alt={this.props.images[this.state.index][1]} className="main-image" src={this.props.images[this.state.index][0]} onError={this.logError}/>
-					<div className="main-image-caption">
-						<Left className={leftClass} /><p className="main-image-text color-white">{this.props.images[this.state.index][1]}</p><Right className={rightClass} />
-					</div>
+					{ this.props.images.length ? this.renderMainImage() : false }
+					<img id="loader" className="main-image" src={Loader} />
+					{ this.renderCaption() }
 				</div>
 			</div>
 		)
