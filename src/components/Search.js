@@ -20,6 +20,8 @@ export default class Search extends Component {
     checkKey(e) {
         if (e.which === 13 || e.keyCode === 13) {
             this.enterQuery()
+        } else if (e.which === 27 || e.keyCode === 27) {
+            this.props.onExit()
         }
     }
     triggerEmptyQueryAlert() {
@@ -30,7 +32,7 @@ export default class Search extends Component {
     }
     render() {
         return (
-            <div onKeyPress={this.checkKey} className="search-wrapper">
+            <div onKeyDown={this.checkKey} className="search-wrapper">
                 <div className="input-wrapper">
                     <input ref="searchQuery" placeHolder="city, address, landmark" id="search-input"></input>
                     <div className="search-btn" onClick={this.enterQuery}><p className="search-btn-label">Capture Location <SearchIcon /></p></div>

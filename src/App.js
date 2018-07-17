@@ -9,13 +9,15 @@ import './App.css';
 export default class App extends Component {
   constructor(props) {
     super(props)
+    let noFlex = window.navigator.userAgent.indexOf('Windows') !== -1 ? true : false
     this.state = {
       query: null,
       number: 0,
       newPins: [],
       acceptFromMaps: true,
       pinToRemove: '',
-      map: null
+      map: null,
+      noFlex
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
@@ -54,7 +56,7 @@ export default class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className={ this.state.noFlex ? "App ie-app" : "App" }>
         <Header triggerZoomOut={this.registerZoomOut} 
                 transmitQuery={this.updateQuery}></Header>
         <GoogleMap pinToRemove={this.state.pinToRemove} 

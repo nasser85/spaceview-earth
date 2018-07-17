@@ -30,6 +30,16 @@
     animation: none;
 }
 
+.nav-item.exit-btn {
+    margin-left: -55px;
+    margin-top: 60px;
+    position: absolute;
+    display: none;
+}
+.nav-item.exit-btn.clicked {
+    display: inline-block;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);

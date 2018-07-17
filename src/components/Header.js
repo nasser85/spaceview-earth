@@ -36,7 +36,8 @@ export default class Header extends Component {
     }
     renderSearch() {
         return (
-            <Search registerQuery={this.captureQuery}></Search>
+            <Search registerQuery={this.captureQuery}
+                    onExit={this.toggleSearch}></Search>
         )
     }
     triggerZoomOut() {
@@ -50,7 +51,9 @@ export default class Header extends Component {
                         <li className='nav-item' onClick={this.triggerZoomOut}><Globe className="color-blue" /></li>
                         <li className={ this.state.connected ? 'nav-item clicked' : 'nav-item'} onClick={this.toggleConnected}><Timeline className="color-red"/></li>
                         <li className={ this.state.searchVisible ? 'nav-item clicked' : 'nav-item'} onClick={this.toggleSearch}><SearchIcon className="color-black"/></li>
+                        <li className={ this.state.searchVisible ? 'nav-item exit-btn clicked' : 'nav-item exit-btn'} onClick={this.toggleSearch}><Close className="color-white" /></li>
                     </ul>
+                    
     			</div>
                 { this.state.searchVisible ? this.renderSearch() : false }
             </div>
