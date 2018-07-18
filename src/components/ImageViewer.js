@@ -17,9 +17,21 @@ export default class ImageViewer extends Component {
 		this.onImageLoad = this.onImageLoad.bind(this)
 		this.renderMainImage = this.renderMainImage.bind(this)
 		this.renderCaption = this.renderCaption.bind(this)
+		this.maybeClose = this.maybeClose.bind(this)
+	}
+	componentDidMount() {
+		document.addEventListener('keydown', this.maybeClose)
+	}
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.maybeClose)
 	}
 	closeViewer() {
 		this.props.close()
+	}
+	maybeClose(e) {
+		if (e.which === 27 || e.keyCode === 27) {
+			this.props.close()
+		}
 	}
 	logError() {
 		this.props.onBroken(this.props.images[this.state.index][1], this.props.images[this.state.index][2])
