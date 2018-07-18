@@ -17,6 +17,7 @@ export default class App extends Component {
       acceptFromMaps: true,
       pinToRemove: '',
       map: null,
+      connectPins: false,
       noFlex
     }
     this.updateQuery = this.updateQuery.bind(this);
@@ -63,7 +64,8 @@ export default class App extends Component {
                    query={this.state.query}
                    numberOfQueries={this.state.number}
                    logNewPins={this.passNewPin}
-                   shouldTransmit={this.state.acceptFromMaps}></GoogleMap>
+                   shouldTransmit={this.state.acceptFromMaps}
+                   shouldConnectPins={this.state.connectPins}></GoogleMap>
         <Sidebar logPinRemoval={this.removePin}
                  newPins={this.state.newPins}
                  map={this.state.map}></Sidebar>

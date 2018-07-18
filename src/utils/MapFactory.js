@@ -31,4 +31,13 @@ export default class MapFactory {
     static openInfoWindow(markerObj, map) {
     	markerObj.infoWindow.open(map, markerObj.marker)
     }
+    static getPinPath(pins, map) {
+        let locations = pins.map(el => el.location)
+        let pinPath = new window.google.maps.Polyline({
+            path: locations,
+            strokeColor: '#FBFBFF',
+            strokeWeight: 2
+        })
+        return pinPath
+    }
 }

@@ -22,7 +22,8 @@ export default class GoogleMap extends Component {
             mapPins: [],
             imageViewer: false,
             imagesForViewer: [],
-            imageCache: {}
+            imageCache: {},
+            connector: null
 		}
 		this.createGenericMap = this.createGenericMap.bind(this)
         this.goToPlace = this.goToPlace.bind(this)
@@ -39,6 +40,7 @@ export default class GoogleMap extends Component {
         this.setImageViewer = this.setImageViewer.bind(this)
         this.retrieveNASAImage = this.retrieveNASAImage.bind(this)
         this.replenishCachedLocation = this.replenishCachedLocation.bind(this)
+        this.connectPins = this.connectPins.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -168,6 +170,18 @@ export default class GoogleMap extends Component {
             document.getElementById(removePinBtn).addEventListener('click', () => { this.removePin(markerObj) })
         })
     }
+    connectPins() {
+        if (this.state.mapPins.length > 1) {
+            let path = MapFactory.getPinPath(this.state.mapPins, this.state.map)
+            path.setMap(this.state.map)
+            this.setState({connector: path})
+        }
+    }
+    disconnectPins() {
+        if (this.state.connector) {
+            this.state.connector.setMap(null)
+        }
+    }
     checkForUpdates() {
         let remove = this.state.mapPins.filter(el=>el.name==this.props.pinToRemove);
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
@@ -176,6 +190,9 @@ export default class GoogleMap extends Component {
         }
         if (remove.length) {
             this.removePin(remove[0])
+        }
+        if (this.props.connectPins) {
+            this.connectPins()
         }
     }
 	render() {
