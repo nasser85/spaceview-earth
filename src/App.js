@@ -18,21 +18,34 @@ export default class App extends Component {
       pinToRemove: '',
       map: null,
       connectPins: false,
+      disconnectPins: false,
       noFlex
     }
     this.updateQuery = this.updateQuery.bind(this);
     this.registerZoomOut = this.registerZoomOut.bind(this)
     this.passNewPin = this.passNewPin.bind(this)
     this.removePin = this.removePin.bind(this)
+    this.setConnectPins = this.setConnectPins.bind(this)
+    this.setDisconnectPins = this.setDisconnectPins.bind(this)
   }
   componentDidUpdate() {
     if (this.state.pinToRemove != '') {
-      this.setState({pinToRemove:''})
+      this.setState({
+        pinToRemove:'',
+        connectPins: false,
+        disconnectPins: false
+      })
     }
   }
   updateQuery(query) {
     let number = this.state.number + 1;
-    this.setState({ query, number, acceptFromMaps:true })
+    this.setState({ 
+      query,
+      number,
+      acceptFromMaps:true,
+      disconnectPins: false,
+      connectPins: false
+    })
   }
   registerZoomOut() {
     this.updateQuery('Z28gaG9tZQ==')
@@ -42,6 +55,8 @@ export default class App extends Component {
         this.setState({
           newPins: pins,
           acceptFromMaps: true,
+          connectPins: false,
+          disconnectPins: false,
           map
         })
       
@@ -52,20 +67,37 @@ export default class App extends Component {
     this.setState({
       newPins: pins,
       acceptFromMaps: false,
-      pinToRemove: pinToRemove.name
+      pinToRemove: pinToRemove.name,
+      connectPins: false,
+      disconnectPins: false
+    })
+  }
+  setConnectPins() {
+    this.setState({
+      connectPins: true,
+      disconnectPins: false
+    })
+  }
+  setDisconnectPins() {
+    this.setState({
+      connectPins: false,
+      disconnectPins: true
     })
   }
   render() {
     return (
       <div className={ this.state.noFlex ? "App ie-app" : "App" }>
         <Header triggerZoomOut={this.registerZoomOut} 
-                transmitQuery={this.updateQuery}></Header>
+                transmitQuery={this.updateQuery}
+                transmitConnectPins={this.setConnectPins}
+                transmitDisconnectPins={this.setDisconnectPins}></Header>
         <GoogleMap pinToRemove={this.state.pinToRemove} 
                    query={this.state.query}
                    numberOfQueries={this.state.number}
                    logNewPins={this.passNewPin}
                    shouldTransmit={this.state.acceptFromMaps}
-                   shouldConnectPins={this.state.connectPins}></GoogleMap>
+                   shouldConnectPins={this.state.connectPins}
+                   shouldDisconnectPins={this.state.disconnectPins}></GoogleMap>
         <Sidebar logPinRemoval={this.removePin}
                  newPins={this.state.newPins}
                  map={this.state.map}></Sidebar>

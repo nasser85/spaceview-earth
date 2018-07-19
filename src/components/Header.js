@@ -24,6 +24,11 @@ export default class Header extends Component {
 	}
     toggleConnected() {
         let status = this.state.connected
+        if (!status) {
+            this.props.transmitConnectPins()
+        } else {
+            this.props.transmitDisconnectPins()
+        }
         this.setState({connected: !status})
     }
     toggleSearch() {

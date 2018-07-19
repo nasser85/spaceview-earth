@@ -23,7 +23,8 @@ export default class GoogleMap extends Component {
             imageViewer: false,
             imagesForViewer: [],
             imageCache: {},
-            connector: null
+            connector: null,
+            connected: false
 		}
 		this.createGenericMap = this.createGenericMap.bind(this)
         this.goToPlace = this.goToPlace.bind(this)
@@ -41,6 +42,7 @@ export default class GoogleMap extends Component {
         this.retrieveNASAImage = this.retrieveNASAImage.bind(this)
         this.replenishCachedLocation = this.replenishCachedLocation.bind(this)
         this.connectPins = this.connectPins.bind(this)
+        this.disconnectPins = this.disconnectPins.bind(this)
 	}
 	componentDidMount() {
 		document.addEventListener('DOMContentLoaded', this.createGenericMap);
@@ -174,12 +176,16 @@ export default class GoogleMap extends Component {
         if (this.state.mapPins.length > 1) {
             let path = MapFactory.getPinPath(this.state.mapPins, this.state.map)
             path.setMap(this.state.map)
-            this.setState({connector: path})
+            this.setState({
+                connector: path,
+                connected: true
+            })
         }
     }
     disconnectPins() {
         if (this.state.connector) {
             this.state.connector.setMap(null)
+            this.setState({connected: false})
         }
     }
     checkForUpdates() {
@@ -191,8 +197,11 @@ export default class GoogleMap extends Component {
         if (remove.length) {
             this.removePin(remove[0])
         }
-        if (this.props.connectPins) {
+        if (this.props.shouldConnectPins && !this.state.connected) {
             this.connectPins()
+        }
+        if (this.props.shouldDisconnectPins && this.state.connected) {
+            this.disconnectPins()
         }
     }
 	render() {
