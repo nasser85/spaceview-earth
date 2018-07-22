@@ -1,39 +1,59 @@
 .places-sidebar {
-    position: fixed;
+    box-sizing: border-box;
+    position: absolute;
     z-index: 20;
     height: 100%;
     width: 300px;
     left: 0px;
     transition: left 1s;
     background-color: #0D0630;
+    border-right: 1px solid #FBFBFF;
 }
-.places-sidebar:after {
-    content: '';
+.places-item-wrapper {
     position: relative;
-    border-bottom: 25px solid #0D0630;
-    border-top: 25px solid #0D0630;
-    border-right: 25px solid #0D0630;
-    margin-left: 25px;
-    top: 50%;
-    left: 50%;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.places-item-wrapper::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+.places-item-wrapper::-webkit-scrollbar-track {
+    background-color: #0D0630;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+}
+ 
+.places-item-wrapper::-webkit-scrollbar-thumb {
+  background-color: #FBFBFF;
+  outline: 1px solid #0D0630;
 }
 .places-sidebar.hidden {
     border-color: white;
     left: -300px;
 }
 .drag-button {
+    box-sizing: border-box;
     position: absolute;
     top: 50%;
     left: 100%;
     z-index: 70;
     color: #FBFBFF;
     font-size: 3rem;
-    margin-left: -12px;
+    margin-left: 0.5px;
     margin-top: -13px;
+    background-color: #0D0630;
+    height: 64px;
+    border-top: 1px solid #FBFBFF;
+    border-bottom: 1px solid #FBFBFF;
+    border-right: 1px solid #FBFBFF;
+    border-radius: 4px;
 }
 .drag-button:hover {
     cursor: pointer;
     transform: scale(1.1);
+    margin-left: 2.55px;
 }
 .places-item-container {
     list-style: none;
@@ -54,7 +74,7 @@
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 .item-name {
-    width: 216px;
+    width: 200px;
     text-align: left;
     display: inline-block;
 }

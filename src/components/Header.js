@@ -52,6 +52,7 @@ export default class Header extends Component {
 		return (
             <div>
     			<div className="nav-wrapper bg-white">
+                    <span className="header-title">SpaceView Earth</span>
                     <ul className="nav-items">
                         <li className='nav-item' onClick={this.triggerZoomOut}><Globe className="color-blue" /></li>
                         <li className={ this.state.connected ? 'nav-item clicked' : 'nav-item'} onClick={this.toggleConnected}><Timeline className="color-red"/></li>

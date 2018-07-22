@@ -40,11 +40,14 @@ export default class Sidebar extends Component {
     render() {
         return (
             <div className={this.state.hidden ? "places-sidebar hidden" : "places-sidebar"}>
-                <ul className="places-item-container">
-                    { this.props.newPins.map(this.renderLocation) }
-                </ul>
+                <div className="places-item-wrapper">
+                    <ul className="places-item-container">
+                        { this.props.newPins.map(this.renderLocation) }
+                    </ul>
+                    
+                </div>
                 <DragButton onClick={this.toggleSidebar}
-                            className="drag-button"></DragButton>
+                                className="drag-button"></DragButton>
             </div>
         )
     }
