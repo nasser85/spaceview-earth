@@ -34,7 +34,7 @@ export default class Search extends Component {
         return (
             <div onKeyDown={this.checkKey} className="search-wrapper">
                 <div className="input-wrapper">
-                    <input ref="searchQuery" placeHolder="enter any place" id="search-input"></input>
+                    <input ref="searchQuery" placeholder="enter any place" id="search-input"></input>
                     <div className="search-btn" onClick={this.enterQuery}><p className="search-btn-label">Capture Location <SearchIcon /></p></div>
                 </div>
             </div>

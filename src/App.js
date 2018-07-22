@@ -31,9 +31,7 @@ export default class App extends Component {
   componentDidUpdate() {
     if (this.state.pinToRemove != '') {
       this.setState({
-        pinToRemove:'',
-        connectPins: false,
-        disconnectPins: false
+        pinToRemove:''
       })
     }
   }
@@ -42,9 +40,7 @@ export default class App extends Component {
     this.setState({ 
       query,
       number,
-      acceptFromMaps:true,
-      disconnectPins: false,
-      connectPins: false
+      acceptFromMaps:true
     })
   }
   registerZoomOut() {
@@ -55,8 +51,6 @@ export default class App extends Component {
         this.setState({
           newPins: pins,
           acceptFromMaps: true,
-          connectPins: false,
-          disconnectPins: false,
           map
         })
       
@@ -67,21 +61,17 @@ export default class App extends Component {
     this.setState({
       newPins: pins,
       acceptFromMaps: false,
-      pinToRemove: pinToRemove.name,
-      connectPins: false,
-      disconnectPins: false
+      pinToRemove: pinToRemove.name
     })
   }
   setConnectPins() {
     this.setState({
-      connectPins: true,
-      disconnectPins: false
+      connectPins: true
     })
   }
   setDisconnectPins() {
     this.setState({
-      connectPins: false,
-      disconnectPins: true
+      connectPins: false
     })
   }
   render() {
@@ -96,8 +86,7 @@ export default class App extends Component {
                    numberOfQueries={this.state.number}
                    logNewPins={this.passNewPin}
                    shouldTransmit={this.state.acceptFromMaps}
-                   shouldConnectPins={this.state.connectPins}
-                   shouldDisconnectPins={this.state.disconnectPins}></GoogleMap>
+                   shouldConnectPins={this.state.connectPins}></GoogleMap>
         <Sidebar logPinRemoval={this.removePin}
                  newPins={this.state.newPins}
                  map={this.state.map}></Sidebar>

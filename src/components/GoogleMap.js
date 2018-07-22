@@ -51,7 +51,23 @@ export default class GoogleMap extends Component {
         if (this.props.shouldTransmit) {
             this.props.logNewPins(this.state.mapPins, this.state.map)
         }
+        if (this.props.shouldConnectPins) {
+            this.connectPins()
+        } else {
+            this.disconnectPins()
+        }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.shouldConnectPins !== nextProps.shouldConnectPins) {
+            if (!nextProps.shouldConnectPins) {
+                this.disconnectPins();
+            } else {
+                this.connectPins()
+            }
+        }
+    }
+
     zoomOut() {
         this.state.map.setCenter(mapConfig.center)
         this.state.map.setZoom(3);
@@ -174,18 +190,16 @@ export default class GoogleMap extends Component {
     }
     connectPins() {
         if (this.state.mapPins.length > 1) {
+            this.disconnectPins();
             let path = MapFactory.getPinPath(this.state.mapPins, this.state.map)
             path.setMap(this.state.map)
-            this.setState({
-                connector: path,
-                connected: true
-            })
+            window._gmapConnector = path
         }
     }
     disconnectPins() {
-        if (this.state.connector) {
-            this.state.connector.setMap(null)
-            this.setState({connected: false})
+        if (window._gmapConnector) {
+            window._gmapConnector.setMap(null)
+            delete window._gmapConnector
         }
     }
     checkForUpdates() {
@@ -197,12 +211,7 @@ export default class GoogleMap extends Component {
         if (remove.length) {
             this.removePin(remove[0])
         }
-        if (this.props.shouldConnectPins && !this.state.connected) {
-            this.connectPins()
-        }
-        if (this.props.shouldDisconnectPins && this.state.connected) {
-            this.disconnectPins()
-        }
+        
     }
 	render() {
         this.checkForUpdates()  
