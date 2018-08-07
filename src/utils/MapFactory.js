@@ -1,4 +1,5 @@
 import { localKeys } from '../config/local.keys.js'
+import { mapBounds } from '../config/mapConfig.js'
 import $ from 'jquery'
 
 export default class MapFactory {
@@ -39,5 +40,27 @@ export default class MapFactory {
             strokeWeight: 2
         })
         return pinPath
+    }
+    static isInBounds(map) {
+        let bottom = -85
+        let zoom = map.getZoom()
+        let top = zoom < 11 ? mapBounds[zoom] : 85
+        let currBounds = map.getBounds().f.b
+        return currBounds < top && currBounds > bottom
+
+    }
+    static setMapBounds(map) {
+        let mapBounds = new window.google.maps.LatLngBounds(
+            new window.google.maps.LatLng(-171.1160736286364, -42),
+            new window.google.maps.LatLng(-84, -44)
+        )
+        window._lastValidCenter = map.getCenter();
+        window.google.maps.event.addListener(map, 'bounds_changed', () => {
+           if (this.isInBounds(map)) {
+            window._lastValidCenter = map.getCenter();
+               return;
+           }
+           map.panTo(window._lastValidCenter)
+        })
     }
 }

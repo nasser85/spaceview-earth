@@ -119,9 +119,10 @@ export default class GoogleMap extends Component {
         })
     }
 	createGenericMap() {
-		let map, service;
+		let map, service, mapBounds;
 		if (!this.state.map) {
 			map = new window.google.maps.Map(document.getElementById('nasa-app-map-background'), mapConfig)
+            MapFactory.setMapBounds(map)
             this.setState({ map })
 		}
 	}

@@ -5,7 +5,19 @@ export const mapConfig = (() => ({
 	zoom: 3,
     minZoom: 3,
 	styles: mapStyle,
-    gestureHandling: 'none',
-    zoomControl: false,
-    disableDefaultUI: true
+    streetViewControl: false
 }))()
+
+export const mapBounds = (() =>([
+		null,
+		null,
+		null,
+		50,
+		75,
+		81,
+		83,
+		84,
+		84,
+		84.5,
+		84.5
+	]))()
