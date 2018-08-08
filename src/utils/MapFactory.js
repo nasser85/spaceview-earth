@@ -50,10 +50,6 @@ export default class MapFactory {
 
     }
     static setMapBounds(map) {
-        let mapBounds = new window.google.maps.LatLngBounds(
-            new window.google.maps.LatLng(-171.1160736286364, -42),
-            new window.google.maps.LatLng(-84, -44)
-        )
         window._lastValidCenter = map.getCenter();
         window.google.maps.event.addListener(map, 'bounds_changed', () => {
            if (this.isInBounds(map)) {

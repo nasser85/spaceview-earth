@@ -12,12 +12,13 @@ import '../styles/GoogleMap.css'
 export default class GoogleMap extends Component {
 	constructor(props) {
 		super(props)
+        let store = window.localStorage
 		this.state = {
 			center: null,
 			zoom: null,
 			styles: null,
 			map: null,
-            query: null,
+            query: store.getItem('locations') ? 'Z28gaG9tZQ==' : null,
             numberOfQueries: 0,
             mapPins: [],
             imageViewer: false,
@@ -75,7 +76,7 @@ export default class GoogleMap extends Component {
     goToPlace() {
         this.setState({query: this.props.query})
     }
-    logData(data) {
+    logData(data, previousPlace=false) {
         if (!data.results.length) {
             return
         }
@@ -85,9 +86,13 @@ export default class GoogleMap extends Component {
         let bounds = info.geometry.viewport
         this.state.map.setCenter(location)
         this.state.map.setZoom(3);
-        this.travelToDestination(bounds, location, locationName);
+        this.travelToDestination(bounds, location, locationName, previousPlace);
     }
-    travelToDestination(bounds, location, locationName) {
+    travelToDestination(bounds, location, locationName, previousPlace=false) {
+        if (previousPlace) {
+            this.placeMarker(location, locationName, bounds)
+            return;
+        }
         let zoom = 3
         let zoomAnimation = window.setInterval(()=>{
             if (zoom < 10) {
@@ -113,23 +118,35 @@ export default class GoogleMap extends Component {
         MapFactory.addClickEvent(pin, this.state.map)
         let updatedPins = this.state.mapPins
         updatedPins.push(pin)
+        let updatedLocations = window.localStorage.getItem('locations') ? JSON.parse(window.localStorage.locations) : {}
+        updatedLocations[pin.name] = null
+        window.localStorage.setItem('locations', JSON.stringify(updatedLocations))
         this.setState({
             mapPins : updatedPins,
             numberOfQueries : this.props.numberOfQueries
         })
     }
 	createGenericMap() {
-		let map, service, mapBounds;
+		let map, service;
 		if (!this.state.map) {
 			map = new window.google.maps.Map(document.getElementById('nasa-app-map-background'), mapConfig)
-            MapFactory.setMapBounds(map)
+            let locations = window.localStorage.getItem('locations') ? JSON.parse(window.localStorage.locations) : {}
+            Object.keys(locations).forEach(location => {
+                MapFactory.findLocation(location)
+                          .then(res=>{this.logData(res, true)}) 
+            })
             this.setState({ map })
 		}
 	}
     removePin(markerObj) {
         markerObj.marker.setMap(null)
         let updatedPins = this.state.mapPins.filter(el => el.name != markerObj.name)
-        this.setState({mapPins : updatedPins})
+        let updatedLocations = window.localStorage.getItem('locations') ? JSON.parse(window.localStorage.locations) : {}
+        delete updatedLocations[markerObj.name]
+        window.localStorage.setItem('locations', JSON.stringify(updatedLocations))
+        this.setState({
+            mapPins : updatedPins
+        })
         this.zoomOut();
     }
     retrieveNASAImage(location, lat, lng, markerObj) {
@@ -207,7 +224,7 @@ export default class GoogleMap extends Component {
         let remove = this.state.mapPins.filter(el=>el.name==this.props.pinToRemove);
         if (this.props.numberOfQueries != this.state.numberOfQueries) {
              this.props.query == 'Z28gaG9tZQ==' ? this.zoomOut() : MapFactory.findLocation(this.props.query)
-                        .then(this.logData)
+                        .then(res => {this.logData(res, false) })
         }
         if (remove.length) {
             this.removePin(remove[0])
